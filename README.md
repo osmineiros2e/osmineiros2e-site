@@ -1,1 +1,1 @@
-# osmineiros2e-site
+# osmineiros-site
