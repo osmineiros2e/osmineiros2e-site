@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Os Mineiros</title>
+  <style>
+    /* Paleta */
+    :root {
+      --vermelho: #B02E0C;
+      --laranja: #D95F18;
+      --amarelo: #ffd384;
+      --marrom: #8C6E54;
+      --branco: #faf5ea;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--branco);
+      color: #333;
+    }
+    header {
+      background: var(--vermelho);
+      color: var(--branco);
+      text-align: center;
+      padding: 2rem;
+    }
+    nav {
+      background: var(--marrom);
+      text-align: center;
+      padding: 1rem;
+    }
+    nav a {
+      color: var(--branco);
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    section {
+      display: none;
+      padding: 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    section.active {
+      display: block;
+    }
+    h2 { color: var(--vermelho); }
+        
+  /* Seção da Playlist */
+.playlist-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: #f9f9f9;
+}
+
+.playlist-section h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.playlist-section p {
+  font-size: 1.1em;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+.playlist-card {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 15px;
+}
+
+    /* FAQ */
+.faq {
+  max-width: 900px;
+  margin: 30px auto;
+  background: var(--branco);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.faq h2 {
+  margin: 0;
+  padding: 18px 22px;
+  background: var(--amarelo);
+  color: #333;
+}
+.faq details {
+  border-top: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+}
+.faq details[open] {
+  background: #fffaf0;
+}
+.faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 16px 22px;
+  font-weight: 700;
+  color: var(--vermelho);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.faq summary::marker { display: none; }     /* Firefox */
+.faq summary::-webkit-details-marker {display:none;} /* Chrome */
+.faq summary .chevron {
+  margin-left: auto;
+  transition: transform .2s ease;
+}
+.faq details[open] summary .chevron {
+  transform: rotate(90deg);
+}
+.faq .answer {
+  padding: 0 22px 18px 22px;
+  color: #333;
+  line-height: 1.6;
+}
+.faq a.btn-link {
+  color: var(--branco);
+  background: var(--vermelho);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.faq a.btn-link:hover { background: var(--laranja); }
+
+<!-- ====== CSS PARA A SEÇÃO PODCASTS ====== -->
+<style>
+  #podcasts {
+    padding: 40px;
+    background: #fff;
+    text-align: center;
+  }
+
+  #podcasts h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #222;
+  }
+
+  .podcast-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+  }
+
+  .podcast-card {
+    background: #fffaf0;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+  }
+
+  .podcast-card h3 {
+    margin-top: 0;
+    color: #333;
+  }
+
+  .podcast-card p {
+    color: #555;
+  }
+
+  .podcast-img {
+    width: 100%;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+
+  .btn {
+    display: inline-block;
+    background: #B02E0C;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    background: #B02E0C;
+  }
+
+  .cta {
+    margin-top: 30px;
+  }
+
+  .cta h3 {
+    margin-bottom: 10px;
+    color: #222;
+  }
+
+    /* Cards de matérias */
+    .materiais {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--amarelo);
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--vermelho);
+      color: var(--branco);
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    /* Quem somos */
+    .grupo {
+      margin-bottom: 2rem;
+    }
+    .fotos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .pessoa {
+      flex: 1 1 200px;
+      text-align: center;
+    }
+    .pessoa img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--vermelho);
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: var(--amarelo);
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .newsletter input[type="email"] {
+      padding: 0.7rem;
+      border: none;
+      border-radius: 5px;
+      margin-right: 0.5rem;
+      width: 250px;
+    }
+    .newsletter button {
+      padding: 0.7rem 1.2rem;
+      border: none;
+      background: var(--vermelho);
+      color: var(--branco);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .newsletter button:hover { background: var(--laranja); }
+
+    footer {
+      background: var(--marrom);
+      color: var(--branco);
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Os Mineiros ✨</h1>
+    <p>Levando a sala de aula além, com leveza e união!</p>
+  </header>
+
+  <nav>
+    <a onclick="showTab('quem-somos')">Quem somos</a>
+    <a onclick="showTab('materiais')">Materiais</a>
+    <a onclick="showTab('profissionalize')">Aprenda Fora da Escola</a>
+    <a onclick="showTab('profissionais')">Profissionais</a>
+    <a onclick="showTab('comunidade')">Comunidade</a>
+    <a onclick="showTab('contato')">Contato</a>
+  </nav>
+
+  <!-- Quem somos -->
+  <section id="quem-somos" class="active">
+    <h2>Quem somos</h2>
+    <p style="text-align: justify;">
+      Somos Os Mineiros, alunos do colégio Fazenda Velha em Araucária - PR, nos unimos para um trabalho e decidimos ir além da sala de aula.
+      Somos de cantos diferentes do Brasil — Rondônia, Maranhão, Rio de Janeiro, Paraná e Pernambuco — e nos unimos para provar que diversidade é nossa maior riqueza.
+      Aqui, misturamos sotaques, ideias e jeitos de ser para criar conteúdos criativos, ajudar estudantes e fortalecer a comunidade escolar, sempre com leveza, união e aquele tempero brasileiro que não pode faltar.
+    </p>
+
+ <h2>Nossa história</h2>
+    <p style="text-align: justify;">
+      Tudo começou com um trabalho que a gente achava que ia ser só mais um. Mas, no dia da entrega, percebemos que “Os Mineiros” estavam sendo reconhecidos e que aquilo podia ir além da sala de aula.
+Claro, tivemos conflitos e desafios no caminho, e algumas pessoas entraram e saíram. Mas os que ficaram foram aqueles que tinham o mesmo objetivo: crescer juntos e mostrar a força da nossa união. 
+Hoje, depois daquele trabalho que parecia comum, damos um passo a mais: transformar “Os Mineiros” em um grupo que ajuda a comunidade escolar do Fazenda Velha, apoiando alunos e professores com conteúdo, criatividade e parceria.
+    </p>
+
+     <h2>Valores</h2>
+    <p style="text-align: justify;">- Diversidade: "Somos de cantos diferentes do Brasil — Rondônia, Maranhão, Rio de Janeiro, Paraná e Pernambuco — e nos unimos para provar que a diversidade é nossa maior riqueza. Aqui, misturamos sotaques, ideias e jeitos de ser." <br>
+      - Qualidade: "Nosso compromisso é entregar conteúdos criativos e bem elaborados, que realmente façam a diferença nos estudos e na vida dos alunos." <br>
+      - Inovação: "Estamos sempre em busca de novas formas de ensinar e aprender, seja com recursos interativos, debates online ou projetos inovadores." <br>
+      - Leveza: "Queremos que o aprendizado seja uma experiência divertida, com aquele 'tempero brasileiro' que não pode faltar." <br>
+    </p>
+
+    <div class="grupo">
+      <h2>Nosso grupo</h2>
+      <h3>👩‍🎓 Do Paraná</h3>
+      <div class="fotos">
+        <div class="pessoa"><img src="imagens/geo.jpeg"><p>Geovana </p></div>
+        <div class="pessoa"><img src="imagens/gaby.jpeg"><p>Gabrielly </p></div>
+        <div class="pessoa"><img src="imagens/grazy.jpeg"><p>Grazielly </p></div>
+        <div class="pessoa"><img src="imagens/joao.jpeg"><p>João Pedro </p></div>
+      </div>
+    </div>
+
+    <div class="grupo">
+      <h3>🌎 Brasil afora</h3>
+      <div class="fotos">
+        <div class="pessoa"><img src="imagens/kaua.png"><p>Kauã - Rio de Janeiro</p></div>
+        <div class="pessoa"><img src="imagens/matheus.jpeg"><p>Matheus - Maranhão</p></div>
+        <div class="pessoa"><img src="imagens/ana.jpeg"><p>Ana Muniz - Rondônia</p></div>
+        <div class="pessoa"><img src="imagens/jonatas.jpeg"><p>Jônatas - Rondônia</p></div>
+        <div class="pessoa"><img src="https://dicionario.priberam.org/images/dplp/preto.jpg"><p>David - Pernambuco</p></div>
+            <img src="c:\Users\LIMA DISIGN\Pictures\Screenshots\Captura de tela 2025-08-22 163649.png" style="width: 400px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Materiais -->
+  <section id="materiais">
+    <h2>Conteúdos em PDF</h2>
+    <div class="materiais">
+      <div class="card"><h3>📐 Matemática</h3><p>Fórmulas e dicas.</p><a href="arquivos/analise-combinatoria.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>✍️ Português</h3><p>Redação e gramática.</p><a href="arquivos/como-escrever-uma-redaçao.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>🇬🇧 Inglês</h3><p>Vocabulário e leitura.</p><a href="arquivos/ingles.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>📖 História</h3><p>Brasil e mundo.</p><a href="arquivos/historia-material.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>🌍 Geografia</h3><p>Biomas e globalização.</p><a href="arquivos/geografia.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>💰 Ed. Financeira</h3><p>Orgamentos e Impostos</p><a href="arquivos/ed-financeira.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>💻 Informática</h3><p>Office e HTML.</p><a href="arquivos/informatica.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>🔬 Química</h3><p>Tabela periódica e orgânica.</p><a href="arquivos/quimica.pdf" target="_blank">Ver material</a></div>
+      <div class="card"><h3>🧬 Biologia</h3><p>Biotécnologia e genética</p><a href="arquivos/biologia.pdf" target="_blank">Ver material</a></div>
+    </div>
+
+      <h2>Video Aulas</h2>
+    <div class="materiais">
+<div class="materiais">
+    <div class="card">
+      <h3>História do Brasil</h3>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="arquivos/brasil-historia.mp4" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Equações de 1° e 2° grau</h3>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="arquivos/equaçoes-1-2-grau.mp4" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>1° Lei de Mendel</h3>
+      <div class="video"> <br> 
+        <iframe width="100%" height="200" src="arquivos/1-lei-de-mendel.mp4" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Inércia</h3>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="arquivos/lei-de-newton.mp4" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Geopolítica</h3>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="arquivos/geopolitica.mp4" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Verbos</h3>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="arquivos/verbos.mp4" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Aprenda Fora da Escola -->
+<section id="profissionalize">
+  <h2>Aprenda Fora da Escola</h2>
+  <p>Se prepare para o mercado de trabalho com materiais práticos e vídeos explicativos.</p>
+  
+  <div class="materiais">
+    <div class="card">
+      <h3>📄 Currículo</h3>
+      <p>Modelo pronto para você usar.</p>
+      <a href="arquivos/curriculo-modelo.pdf" target="_blank">Baixar PDF</a>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/SEU_VIDEO" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📚 ABNT</h3>
+      <p>Normas da ABNT aplicadas no Word.</p>
+      <a href="arquivos/normas-abnt.pdf" target="_blank">Baixar PDF</a>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/SEU_VIDEO" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💼 Entrevista de Emprego</h3>
+      <p>Dicas básicas de como se portar.</p>
+      <a href="arquivos/etiquetas-entrevistas.pdf" target="_blank">Baixar PDF</a>
+      <div class="video"> <br> 
+        <iframe width="100%" height="200" src="arquivos/entrevista.mp4" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Autoconhecimento</h3>
+      <p>Conheça suas emoções</p>
+      <a href="arquivos/emoçoes.pdf" target="_blank">Baixar PDF</a>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/SEU_VIDEO" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>⚙️ Habilidades Profissionais</h3>
+      <p>Lista de competências valorizadas.</p>
+      <a href="arquivos/habilidades-profissionais.pdf" target="_blank">Baixar PDF</a>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/SEU_VIDEO" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🤝 Networking</h3>
+      <p>Como criar conexões no mercado.</p>
+      <a href="arquivos/networking.pdf" target="_blank">Baixar PDF</a>
+      <div class="video"> <br>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/SEU_VIDEO" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFISSIONAIS -->
+<section id="profissionais" style="padding: 40px; background-color: #faf5ea;">
+  <h2 style="text-align: center; font-size: 2.5rem; color: #e63946; margin-bottom: 30px;">
+    Profissionais que apoiam nosso projeto
+  </h2>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <!-- Card 1 -->
+    <div style="width: 250px; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+      <img src="imagens/silvana.jpeg" alt="Foto do Profissional 1" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
+      <h3 style="color: #333; font-size: 1.2rem;">Silvana Muniz</h3>
+      <p style="color: #555; font-size: 0.95rem;">Gestora de Redes</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div style="width: 250px; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+      <img src="imagens/fernando.png" alt="Foto do Profissional 2" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
+      <h3 style="color: #333; font-size: 1.2rem;">Fernando Lima</h3>
+      <p style="color: #555; font-size: 0.95rem;">Desenvolvedor de Pessoas</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div style="width: 250px; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+      <img src="imagens/flavia.jpeg" alt="Foto do Profissional 3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
+      <h3 style="color: #333; font-size: 1.2rem;">Flávia</h3>
+      <p style="color: #555; font-size: 0.95rem;">Professora de Física 1</p>
+    </div>
+
+        <!-- Card 1 -->
+    <div style="width: 250px; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+      <img src="imagens/renata.png" alt="Foto do Profissional 1" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
+      <h3 style="color: #333; font-size: 1.2rem;">Renata</h3>
+      <p style="color: #555; font-size: 0.95rem;">Professora de Matemática Gerais</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div style="width: 250px; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+      <img src="imagens/" alt="Foto do Profissional 2" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
+      <h3 style="color: #333; font-size: 1.2rem;">Gracielly</h3>
+      <p style="color: #555; font-size: 0.95rem;">Professora de Matemática 1</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div style="width: 250px; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+      <img src="imagens/" alt="Foto do Profissional 3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
+      <h3 style="color: #333; font-size: 1.2rem;">Elieser</h3>
+      <p style="color: #555; font-size: 0.95rem;">Professor de Matemática 2</p>
+    </div>
+
+  </div>
+</section>
+
+  <!-- Comunidade -->
+  <section id="comunidade">
+    <h2>Comunidade</h2>
+    <p>Entre na nossa comunidade no <b>Discord</b> de professores e alunos!</p>
+    <p>Compartilharemos matérias, conteúdos de provas, avisos e divulgações do Fazenda Velha.<br>
+    Também teremos canais para os alunos jogarem juntos 🎮 (Minecraft, Roblox, FreeFire...)</p>
+    <p><a href="https://discord.gg/D9RHcskq" target="_blank">👉 Entrar no Discord</a></p>
+
+    <h2>Futuros Eventos</h2>
+    <div class="card">
+      <h3>Oficina de Ciências e Exatas</h3>
+      <p>Cansado de ver números e fórmulas apenas na lousa? Nossa oficina é o lugar perfeito para ver como a ciência e as exatas se aplicam na vida real! Participe de desafios de lógica, resolva problemas de forma criativa e entenda conceitos complexos de um jeito divertido e prático. É a sua chance de aprimorar seu raciocínio e descobrir que a matemática, a física e a química podem ser mais interessantes do que você imagina! Além de todo o aprendizado, teremos brindes e sorteios para os participantes mais engajados!</p>
+      <a href="https://forms.gle/HH7A6CL3XHPDC3xU9" target="_blank">Ver Detalhes</a>
+      </div>
+    </div>
+    <br>
+ 
+    <div class="card">
+      <h3>Bingo Mineiro</h3>
+      <p>Prepare-se para uma caçada de tirar o fôlego no universo cúbico! O Bingo Mineiro é o desafio definitivo de trabalho em equipe no Minecraft. Em equipes de 4 pessoas, cada grupo receberá uma cartela digital de 6x6 repleta de itens aleatórios. De um simples pedaço de carvão a um raro Olho de Ender, a sua missão é ser a primeira equipe a coletar 25 itens da cartela.</p>
+      <a href="profissional/habilidades.pdf" target="_blank">Ver Detalhes</a>
+      </div>
+    </div>
+  </div>
+     <br>
+
+     <!-- Seção Playlist -->
+<section id="playlist" class="playlist-section">
+  <h2>🎶 Playlist do Grupo</h2>
+  <p>Essa é a trilha sonora da nossa comunidade — feita por nós e para nós!</p>
+
+  <div class="playlist-card">
+    <!-- Troque pelo embed do YouTube ou Spotify -->
+    <iframe style="border-radius:12px" 
+      src="https://open.spotify.com/embed/playlist/SEU_ID_DA_PLAYLIST" 
+      width="100%" height="380" frameborder="0" 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+    <div class="newsletter">
+      <h3>📩 Newsletter</h3>
+      <p>Receba resumos e dicas no seu e-mail da escola.<br>
+      <em>(Cadastre com seu email .escola.pr.gov.br)</em></p>
+      <form>
+        <input type="email" placeholder="Digite seu email escolar">
+        <button type="submit">Cadastrar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato">
+    <h2>Contato</h2>
+    <p>Tem alguma ideia para nos ajudar, aviso que queira que divulguemos, projeto que gostaria de um apoio, ou algo que gostaria de nos contar?
+      Estamos aqui para ajudar a comunidade escolar do Fazenda Velha.
+      
+    </p>
+    <p>Podem enviar no nosso Instagram:<br>
+      <a href="https://instagram.com/osmineiros2e" target="_blank">@osmineiros2e</a>
+    </p>
+     <p>Conheça nossas Redes<br>
+      <p>Instagram<br>
+      <a href="https://instagram.com/osmineiros2e" target="_blank">@osmineiros2e</a> <br>
+      <p>Tiktok<br>
+      <a href="https://www.tiktok.com/@os.mineiros5" target="_blank">@os.mineiros5</a>
+      <p>Youtube<br>
+      <a href="https://www.youtube.com/@osmineiros2e" target="_blank">@osmineiros2e</a>
+    </p>
+
+    <div class="faq" id="perguntas-frequentes">
+  <h2>❓ Perguntas Frequentes</h2>
+
+  <details>
+    <summary>Como entro na comunidade do Discord?<span class="chevron">▶</span></summary>
+    <div class="answer">
+      Use o link oficial da nossa comunidade:
+      <a class="btn-link" href="https://discord.gg/D9RHcskq" target="_blank" rel="noopener">Entrar no Discord</a>.
+      Lá você encontra canais por disciplina e salas de jogos (Minecraft, Roblox, Free Fire).
+    </div>
+  </details>
+  
+  <details>
+    <summary>O site é apenas para os alunos do Fazenda Velha?<span class="chevron">▶</span></summary>
+    <div class="answer">
+      Não! Nosso conteúdo é feito para todos os estudantes, professores e pessoas que se interessam por aprendizado e desenvolvimento. Compartilhe à vontade!
+    </div>
+  </details>
+
+  <details>
+    <summary>Onde encontro os materiais por disciplina?<span class="chevron">▶</span></summary>
+    <div class="answer">
+      Na aba <b>Materiais</b> do site. Cada card tem um botão com link para PDF/Drive. <br>
+      Se algo não abrir, pode nos enviar uma mensagem que estaremos a disposição para responder.
+    </div>
+  </details>
+
+  <details>
+    <summary>O que é a newsletter?<span class="chevron">▶</span></summary>
+    <div class="answer">
+      A newsletter é uma ideia para nos ajudar a construir uma comunidade firme. <br>
+      Quando você cadastra seu email@escola.pr.gov.br receberá adiantado divulgações de eventos, projetos ou materiais novos.
+    </div>
+  </details>
+
+  <details>
+    <summary>Posso enviar ideias de projetos ou eventos?<span class="chevron">▶</span></summary>
+    <div class="answer">
+      Sim! Envie no Instagram
+      <a class="btn-link" href="https://instagram.com/osmineiros2e" target="_blank" rel="noopener">@osmineiros2e</a>
+      ou fale no canal <b>#ideias-e-sugestões</b> do Discord.
+    </div>
+  </details>
+
+  <details>
+    <summary>Os eventos têm certificado ou premiação?<span class="chevron">▶</span></summary>
+    <div class="answer">
+      Depende do evento. No card de cada atividade (ex.: Bingo Mineiro ou Oficina de Ciências) há um botão <b>“Mais detalhes”</b> com regras, horários e prêmios (se ouver).
+    </div>
+  </details>
+</div>
+
+
+  </section>
+
+  <footer>
+    <p>© 2025 Os Mineiros - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+    }
+  </script>
+</body>
+</html>
